@@ -103,14 +103,12 @@ public class PlayerMovementScript : MonoBehaviour
         movementVec.x = (Vector3.left * -(Input.GetAxis(myLeftStick + "X"))).x;
         movementVec.z = (Vector3.forward * -(Input.GetAxis(myLeftStick + "Y"))).z;
 
-        if(movementVec.magnitude <.02f)
+        if(movementVec.magnitude <.1f)
         {
             movementVec = new Vector3(0, 0, 0);
         }
 
         if (movementVec.sqrMagnitude > 1.0f) movementVec.Normalize();
-
-        Debug.Log(movementVec.magnitude);
 
         movementVec = movementVec * speed * Time.deltaTime;
 
