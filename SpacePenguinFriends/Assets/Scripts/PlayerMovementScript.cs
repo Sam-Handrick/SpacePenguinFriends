@@ -54,6 +54,8 @@ public class PlayerMovementScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        movementVec = new Vector3(0, 0, 0);
+
         // calculate the angle difference between the camera orientation on the xz plane and what is essentially the direction character movement expects to move on
         cameraAngleDiff = Vector3.Angle(new Vector3(0, 0, 1), new Vector3(myCamera.transform.forward.x, 0, myCamera.transform.forward.z));
 
@@ -70,9 +72,16 @@ public class PlayerMovementScript : MonoBehaviour
         movementVec.x = (Vector3.left * -(Input.GetAxis(myLeftStick + "X") * speed * Time.deltaTime)).x;
         movementVec.z = (Vector3.forward * -(Input.GetAxis(myLeftStick + "Y") * speed * Time.deltaTime)).z;
 
-        if(movementVec.z <.11 && movementVec.x<.11)
-        movementVec.x += (Vector3.left * -(Input.GetAxis("Horizontal") * speed * Time.deltaTime)).x;
-        movementVec.z += (Vector3.forward * -(Input.GetAxis("Vertical") * speed * Time.deltaTime)).z;
+        if(movementVec.magnitude <.02f)
+        {
+            movementVec = new Vector3(0, 0, 0);
+        }
+
+        if (movementVec.magnitude <= 0.0f)
+        {
+            movementVec.x = (Vector3.left * -(Input.GetAxis("Horizontal") * speed * Time.deltaTime)).x;
+            movementVec.z = (Vector3.forward * -(Input.GetAxis("Vertical") * speed * Time.deltaTime)).z;
+        }
 
         // we then rotate the movement vector by the camera angle difference we've just calculated
         movementVec = Quaternion.AngleAxis(cameraAngleDiff, Vector3.up) * movementVec;
