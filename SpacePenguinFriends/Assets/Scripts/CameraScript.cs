@@ -29,8 +29,21 @@ public class CameraScript : MonoBehaviour
 
         transform.LookAt(player.transform.position);
 
-        if (Input.GetAxis("RightStickX") >.3f || Input.GetAxis("RightStickX") < -.3f)
+        if (Input.GetAxis("RightStickX") > .3f || Input.GetAxis("RightStickX") < -.3f)
             currentRotationXZ += rotationSpeed * Time.deltaTime * Input.GetAxis("RightStickX");
+        else if (Input.GetAxis("Mouse X") > .3f || Input.GetAxis("Mouse X") < -.3f)
+        {
+            float mouseAxis = Input.GetAxis("Mouse X");
+            if (mouseAxis > 2.0f)
+                mouseAxis = 2.0f;
+
+            if (mouseAxis < -2.0f)
+                mouseAxis = -2.0f;
+
+            currentRotationXZ += rotationSpeed * Time.deltaTime * Input.GetAxis("Mouse X");
+        }
+
+        Debug.Log(Input.GetAxis("Mouse X"));
 
         transform.RotateAround(player.transform.position, new Vector3(0, 1, 0), currentRotationXZ);
 
