@@ -70,8 +70,8 @@ public class PlayerMovementScript : MonoBehaviour
         movementVec.x = (Vector3.left * -(Input.GetAxis(myLeftStick + "X") * speed * Time.deltaTime)).x;
         movementVec.z = (Vector3.forward * -(Input.GetAxis(myLeftStick + "Y") * speed * Time.deltaTime)).z;
 
-        movementVec.x += (Vector3.left * -(Input.GetAxis("Horizontal") * speed * Time.deltaTime)).x;
-        movementVec.z += (Vector3.forward * -(Input.GetAxis("Vertical") * speed * Time.deltaTime)).z;
+        //movementVec.x += (Vector3.left * -(Input.GetAxis("Horizontal") * speed * Time.deltaTime)).x;
+        //movementVec.z += (Vector3.forward * -(Input.GetAxis("Vertical") * speed * Time.deltaTime)).z;
 
         // we then rotate the movement vector by the camera angle difference we've just calculated
         movementVec = Quaternion.AngleAxis(cameraAngleDiff, Vector3.up) * movementVec;
