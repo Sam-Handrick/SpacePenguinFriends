@@ -18,13 +18,23 @@ public class PlayerMovementScript : MonoBehaviour
     // multiplied by the player's movement to alter movement speed
     public float speed;
 
+    public float jumpForce;
+
+    bool airborne;
+
     private CharacterController charControl;
 
+    // raycast hit used for ground detection
+    private RaycastHit hit;
+
+    // ray used for ground detection
+    private Ray ray;
+
     // these represent the strings used to leverage Unity's input system and reference inputs in unity's input manager
-    string mySButton;
-    string myXButton;
-    string myTButton;
-    string myOButton;
+    string circleButton;
+    string squareButton;
+    string crossButton;
+    string triangleButton;
     string myShareButton;
     string myR2Trigger;
     string myL2Trigger;
@@ -34,10 +44,10 @@ public class PlayerMovementScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        myOButton = "Circle";
-        mySButton = "Square";
-        myTButton = "Cross";
-        myXButton = "Triangle";
+        circleButton = "Circle";
+        squareButton = "Square";
+        crossButton = "Cross";
+        triangleButton = "Triangle";
         myR2Trigger = "R2";
         myL2Trigger = "L2";
         myLeftStick = "LeftStick";
@@ -49,6 +59,27 @@ public class PlayerMovementScript : MonoBehaviour
         charControl = GetComponent<CharacterController>();
 
         myRbody = GetComponent<Rigidbody>();
+
+        airborne = false;
+    }
+
+    // the updates for physics-relative checks done on a fixed schedule
+    void FixedUpdate()
+    {
+
+        ray = new Ray(transform.position, -transform.up);
+        if (Physics.Raycast(ray, out hit, 1.0f))
+        {
+            if (!(hit.collider.isTrigger))
+            {
+                airborne = false;
+            }
+
+        }
+        else
+        {
+            airborne = true;
+        }
     }
 
     // Update is called once per frame
@@ -69,13 +100,19 @@ public class PlayerMovementScript : MonoBehaviour
         }
 
         // we get the movement vector usign the left analog stick input
-        movementVec.x = (Vector3.left * -(Input.GetAxis(myLeftStick + "X") * speed * Time.deltaTime)).x;
-        movementVec.z = (Vector3.forward * -(Input.GetAxis(myLeftStick + "Y") * speed * Time.deltaTime)).z;
+        movementVec.x = (Vector3.left * -(Input.GetAxis(myLeftStick + "X"))).x;
+        movementVec.z = (Vector3.forward * -(Input.GetAxis(myLeftStick + "Y"))).z;
 
         if(movementVec.magnitude <.02f)
         {
             movementVec = new Vector3(0, 0, 0);
         }
+
+        if (movementVec.sqrMagnitude > 1.0f) movementVec.Normalize();
+
+        Debug.Log(movementVec.magnitude);
+
+        movementVec = movementVec * speed * Time.deltaTime;
 
         if (movementVec.magnitude <= 0.0f)
         {
@@ -83,13 +120,23 @@ public class PlayerMovementScript : MonoBehaviour
             movementVec.z = (Vector3.forward * -(Input.GetAxis("Vertical") * speed * Time.deltaTime)).z;
         }
 
+
         // we then rotate the movement vector by the camera angle difference we've just calculated
         movementVec = Quaternion.AngleAxis(cameraAngleDiff, Vector3.up) * movementVec;
 
-        Debug.Log(movementVec);
 
         // translate the player by the finalized movement vector
         myRbody.MovePosition(transform.position + movementVec);
+
+
+
+
+        bool jump = Input.GetButtonDown("Jump") || Input.GetButtonDown("Cross");
+
+        if(jump && !airborne)
+        {
+            myRbody.AddForce(jumpForce * new Vector3(0, 1, 0));
+        }
 
     }
 }
