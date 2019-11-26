@@ -6,7 +6,9 @@ public class PressurePlate_Elevator : MonoBehaviour
 {
     //public GameObject elevator;
     public Animator anim;
-    public string[] elevatorTag = new string[10];
+    //Old Array for elevatorTag (new List below) -> //public string[] elevatorTag = new string[10];
+    public List<string> elevatorTag = new List<string>(new string[] {"Player"});
+    
 
 
 //Used along with OnTriggerEnter to disable/pause the elevator animation at the top
@@ -19,11 +21,9 @@ public class PressurePlate_Elevator : MonoBehaviour
     void OnTriggerEnter(Collider col)
     {
         //Debug.Log(col.tag.GetType());
-
         foreach(string eTag in elevatorTag)
         {
-            //if (col.tag == "Player" || col.tag == elevatorTag)
-            if (col.tag == eTag)
+            if (col.tag == eTag || col.tag == "Player")
             {
                 //elevator.transform.position += new Vector3(0, 4, 0);
                 anim.SetTrigger("Elevator_Lift");      

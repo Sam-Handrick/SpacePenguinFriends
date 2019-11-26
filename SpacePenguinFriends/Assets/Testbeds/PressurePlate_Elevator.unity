@@ -227,10 +227,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   anim: {fileID: 2006321307}
   elevatorTag:
-  - Player
   - Block
   - Stairs
-  - Friend
+  - 
+  - 
   - 
 --- !u!1001 &812240165
 PrefabInstance:
