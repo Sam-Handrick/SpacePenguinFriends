@@ -4,24 +4,39 @@ using UnityEngine;
 
 public class LevelManager : MonoBehaviour
 {
-    public GameObject[] interactObjects;
-    private int numInteractObjects;
+    public const int maxFriends = 5;
+    public int currFriends;
+    public FriendScript[] friendArr;
+
+    private int frontIdx;
 
     // Start is called before the first frame update
     void Start()
     {
-        if( interactObjects == null )
-        {
-            interactObjects = GameObject.FindGameObjectsWithTag("Interaction");
-        }
-
-        numInteractObjects = interactObjects.Length;
+        friendArr = new FriendScript[maxFriends];
+        currFriends = 0;
+        frontIdx = 0;
     }
 
     // Update is called once per frame
     void Update()
     {
-        // Just in case
-        Debug.Assert( interactObjects.Length == numInteractObjects, "ERROR: Number of interactable objects has changed since start." );
+
+    }
+
+    public FriendScript GetFrontFriend()
+    {
+        return friendArr[frontIdx];
+    }
+
+    public int GetFrontIndex()
+    {
+        return frontIdx;
+    }
+
+    public void IncrementFrontIndex()
+    {
+        frontIdx++;
+        frontIdx = frontIdx % currFriends;
     }
 }
