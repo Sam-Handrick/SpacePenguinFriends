@@ -31,7 +31,7 @@ public class PlayerMovementScript : MonoBehaviour
     // raycast hit used for ground detection
     private RaycastHit hit;
 
-    public float turnSpeed = 8.0f;
+    public float turnSpeed = 8.0f; 
 
     // ray used for ground detection
     private Ray ray;
