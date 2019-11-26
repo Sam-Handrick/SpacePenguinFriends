@@ -43,8 +43,6 @@ public class CameraScript : MonoBehaviour
             currentRotationXZ += rotationSpeed * Time.deltaTime * Input.GetAxis("Mouse X");
         }
 
-        Debug.Log(Input.GetAxis("Mouse X"));
-
         transform.RotateAround(player.transform.position, new Vector3(0, 1, 0), currentRotationXZ);
 
         transform.RotateAround(player.transform.position, transform.right, pitchAngle);

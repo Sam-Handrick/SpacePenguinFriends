@@ -30,6 +30,8 @@ public class PlayerMovementScript : MonoBehaviour
     // ray used for ground detection
     private Ray ray;
 
+    Animator animator;
+
     // these represent the strings used to leverage Unity's input system and reference inputs in unity's input manager
     string circleButton;
     string squareButton;
@@ -61,6 +63,8 @@ public class PlayerMovementScript : MonoBehaviour
         myRbody = GetComponent<Rigidbody>();
 
         airborne = false;
+
+        animator = transform.GetChild(0).GetChild(0).GetComponent<Animator>();
     }
 
     // the updates for physics-relative checks done on a fixed schedule
@@ -72,13 +76,18 @@ public class PlayerMovementScript : MonoBehaviour
         {
             if (!(hit.collider.isTrigger))
             {
+                if(airborne)
+                    animator.SetBool("Landed", true);
+
                 airborne = false;
+
             }
 
         }
         else
         {
             airborne = true;
+            animator.SetBool("Jump", false);
         }
     }
 
@@ -119,12 +128,23 @@ public class PlayerMovementScript : MonoBehaviour
         }
 
 
+        if(movementVec.magnitude > 0.0f)
+            animator.SetBool("Walking", true);
+        else
+            animator.SetBool("Walking", false);
+
+
         // we then rotate the movement vector by the camera angle difference we've just calculated
         movementVec = Quaternion.AngleAxis(cameraAngleDiff, Vector3.up) * movementVec;
 
 
         // translate the player by the finalized movement vector
         myRbody.MovePosition(transform.position + movementVec);
+
+        if(movementVec.magnitude >.025f)
+            transform.GetChild(0).forward = movementVec.normalized;
+
+        Debug.Log(movementVec.magnitude);
 
 
 
@@ -134,6 +154,8 @@ public class PlayerMovementScript : MonoBehaviour
         if(jump && !airborne)
         {
             myRbody.AddForce(jumpForce * new Vector3(0, 1, 0));
+
+            animator.SetBool("Jump", true);
         }
 
     }
