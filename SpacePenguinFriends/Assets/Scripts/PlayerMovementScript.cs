@@ -30,6 +30,8 @@ public class PlayerMovementScript : MonoBehaviour
     // ray used for ground detection
     private Ray ray;
 
+    PlayerPushPull pushPullComponent;
+
     Animator animator;
 
     // these represent the strings used to leverage Unity's input system and reference inputs in unity's input manager
@@ -65,6 +67,8 @@ public class PlayerMovementScript : MonoBehaviour
         airborne = false;
 
         animator = transform.GetChild(0).GetChild(0).GetComponent<Animator>();
+
+        pushPullComponent = GetComponent<PlayerPushPull>();
     }
 
     // the updates for physics-relative checks done on a fixed schedule
@@ -138,14 +142,17 @@ public class PlayerMovementScript : MonoBehaviour
         movementVec = Quaternion.AngleAxis(cameraAngleDiff, Vector3.up) * movementVec;
 
 
+        /*if(pushPullComponent.IsLockedToBlock())
+        {
+            pushPullComponent.ApplyMotionToBlock(movementVec);
+            return;
+        }*/
+
         // translate the player by the finalized movement vector
         myRbody.MovePosition(transform.position + movementVec);
 
         if(movementVec.magnitude >.025f)
             transform.GetChild(0).forward = movementVec.normalized;
-
-        Debug.Log(movementVec.magnitude);
-
 
 
 
