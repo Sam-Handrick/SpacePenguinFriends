@@ -24,6 +24,10 @@ public class PlayerMovementScript : MonoBehaviour
 
     private CharacterController charControl;
 
+    public float jumpDelayTime = .5f;
+
+    private float currentJumpWaitTime;
+
     // raycast hit used for ground detection
     private RaycastHit hit;
 
@@ -69,6 +73,7 @@ public class PlayerMovementScript : MonoBehaviour
         animator = transform.GetChild(0).GetChild(0).GetComponent<Animator>();
 
         pushPullComponent = GetComponent<PlayerPushPull>();
+        currentJumpWaitTime = 0.0f;
     }
 
     // the updates for physics-relative checks done on a fixed schedule
@@ -84,7 +89,7 @@ public class PlayerMovementScript : MonoBehaviour
                     animator.SetBool("Landed", true);
 
                 airborne = false;
-
+                animator.SetBool("Jump", false);
             }
 
         }
@@ -98,6 +103,9 @@ public class PlayerMovementScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (currentJumpWaitTime > 0.0f)
+            currentJumpWaitTime -= Time.deltaTime;
+
         movementVec = new Vector3(0, 0, 0);
 
         // calculate the angle difference between the camera orientation on the xz plane and what is essentially the direction character movement expects to move on
@@ -158,11 +166,14 @@ public class PlayerMovementScript : MonoBehaviour
 
         bool jump = Input.GetButtonDown("Jump") || Input.GetButtonDown("Cross");
 
-        if(jump && !airborne)
+        if(jump && !airborne && currentJumpWaitTime <= 0.0f && !animator.GetCurrentAnimatorStateInfo(0).IsName("Hop"))
         {
             myRbody.AddForce(jumpForce * new Vector3(0, 1, 0));
 
             animator.SetBool("Jump", true);
+            animator.Play("Hop", 0, 0.25f);
+
+            currentJumpWaitTime = jumpDelayTime;
         }
 
     }
