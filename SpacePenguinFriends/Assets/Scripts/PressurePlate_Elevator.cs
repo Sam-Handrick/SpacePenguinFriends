@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PressurePlate : MonoBehaviour
+public class PressurePlate_Elevator : MonoBehaviour
 {
     public GameObject door;
     public Animator anim;
@@ -10,7 +10,7 @@ public class PressurePlate : MonoBehaviour
     void OnTriggerEnter(Collider col)
     {
         //door.transform.position += new Vector3(0, 4, 0);
-        anim.SetTrigger("DoorOpen");      
+        anim.SetTrigger("Lift");      
     }
 
     void OnTriggerExit(Collider col)
