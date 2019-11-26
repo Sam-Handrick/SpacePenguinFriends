@@ -7,11 +7,14 @@ public class PlayerPushPull : MonoBehaviour
     enum Direction { Forward, Backward, Right, Left};
     Direction myDirection;
     GameObject currentBlock;
+    private float currentMoveDistance;
 
     bool locked;
 
     bool blockMovingLock;
     Vector3 blockMoveVec;
+
+    Animator animator;
 
     // Start is called before the first frame update
     void Start()
@@ -19,6 +22,9 @@ public class PlayerPushPull : MonoBehaviour
         myDirection = Direction.Forward;
         locked = false;
         blockMovingLock = false;
+        currentMoveDistance = 0;
+
+        animator = transform.GetChild(0).GetChild(0).GetComponent<Animator>();
     }
 
     public bool IsLockedToBlock()
@@ -54,9 +60,9 @@ public class PlayerPushPull : MonoBehaviour
 
         float dotAmount = Vector3.Dot(dotVec, movementVec.normalized);
 
-        Debug.Log(dotAmount);
+        blockMoveVec = new Vector3(0, 0, 0);
 
-        if(dotAmount>.5f)
+        if (dotAmount>.5f)
         {
             blockMovingLock = true;
             blockMoveVec = dotVec;
@@ -65,17 +71,74 @@ public class PlayerPushPull : MonoBehaviour
         if(dotAmount < -.5f)
         {
             blockMovingLock = true;
-            blockMoveVec = dotVec;
+            blockMoveVec = -dotVec;
         }
+
+        Vector3 toPlayer = transform.position - currentBlock.transform.position;
+        float dot = Vector3.Dot(toPlayer, blockMoveVec);
+
+        if(dot>=0)
+        {
+            animator.SetBool("Pulling", true);
+            animator.SetBool("Pushing", false);
+        }
+        else
+        {
+            animator.SetBool("Pushing", true);
+            animator.SetBool("Pulling", false);
+        }
+
+        currentMoveDistance = 0.0f;
+
+        //currentBlock.GetComponent<Rigidbody>().MovePosition(currentBlock.transform.position + (blockMoveVec * Time.deltaTime * 3));
+        //GetComponent<Rigidbody>().MovePosition(transform.position + (blockMoveVec * Time.deltaTime * 3));
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetButtonDown("Cross") || Input.GetButtonDown("Submit"))
+        if (blockMovingLock)
         {
+            Vector3 nextDist = blockMoveVec * Time.deltaTime * currentBlock.GetComponent<PushPullScript>().GetMoveSpeed();
+
+            currentMoveDistance += nextDist.magnitude;
+
+            if (currentMoveDistance > currentBlock.GetComponent<PushPullScript>().GetPushDistance())
+            {
+                float extraDistance = currentMoveDistance - currentBlock.GetComponent<PushPullScript>().GetPushDistance();
+                float newMagnitude = nextDist.magnitude - extraDistance;
+                nextDist = nextDist.normalized * newMagnitude;
+            }
+
+            currentBlock.GetComponent<Rigidbody>().MovePosition(currentBlock.transform.position + (nextDist));
+            GetComponent<Rigidbody>().MovePosition(transform.position + (nextDist));
+
+            if (currentMoveDistance > currentBlock.GetComponent<PushPullScript>().GetPushDistance())
+            {
+                blockMovingLock = false;
+            }
+        }
+
+        if(Input.GetButtonDown("Square") || Input.GetButtonDown("Submit"))
+        {
+            if (locked)
+            {
+                if (!blockMovingLock)
+                { 
+                    transform.SetParent(null);
+                    Vector3 direction = transform.position - currentBlock.transform.position;
+                    direction = direction.normalized * .5f;
+                    GetComponent<Rigidbody>().MovePosition(transform.position + (direction));
+                    locked = false;
+                    animator.SetBool("OnBlock", false);
+                }
+
+                return;
+            }
+
             if(currentBlock)
             {
+
                 Vector3 blockToPlayer = transform.position - currentBlock.transform.position;
 
                 float forwardDot = Vector3.Dot(blockToPlayer, currentBlock.transform.forward);
@@ -110,10 +173,21 @@ public class PlayerPushPull : MonoBehaviour
                 }
 
                 locked = true;
+                animator.SetBool("OnBlock", true);
 
-                //transform.position = currentBlock + offset;
-                //transform.SetPare
+                offset *= currentBlock.GetComponent<PushPullScript>().GetPlayerOffsetDistance();
+                transform.position = currentBlock.transform.position + offset;
+                transform.SetParent(currentBlock.transform);
+                transform.GetChild(0).forward = (currentBlock.transform.position - transform.position).normalized;
             }
+        }
+    }
+
+    public void NotifyBlockCollision(GameObject sender)
+    {
+        if(sender == currentBlock)
+        {
+            blockMovingLock = false;
         }
     }
 
@@ -125,12 +199,21 @@ public class PlayerPushPull : MonoBehaviour
         }
     }
 
+    void OnTriggerStay(Collider col)
+    {
+        if (!currentBlock && col.gameObject.tag == "PushPull")
+        {
+            currentBlock = col.gameObject;
+        }
+    }
+
 
     void OnTriggerExit(Collider col)
     {
         if (col.gameObject.tag == "PushPull" && currentBlock == col.gameObject)
         {
-            currentBlock = null;
+            if(!locked)
+                currentBlock = null;
         }
     }
 }

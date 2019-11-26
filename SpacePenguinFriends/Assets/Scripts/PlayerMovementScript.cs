@@ -142,11 +142,11 @@ public class PlayerMovementScript : MonoBehaviour
         movementVec = Quaternion.AngleAxis(cameraAngleDiff, Vector3.up) * movementVec;
 
 
-        /*if(pushPullComponent.IsLockedToBlock())
+        if(pushPullComponent.IsLockedToBlock())
         {
             pushPullComponent.ApplyMotionToBlock(movementVec);
             return;
-        }*/
+        }
 
         // translate the player by the finalized movement vector
         myRbody.MovePosition(transform.position + movementVec);
