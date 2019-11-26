@@ -4,9 +4,9 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - Interaction
   - LevelManager
-  - Friend
+  - Interaction
+  - PushPull
   layers:
   - Default
   - TransparentFX
