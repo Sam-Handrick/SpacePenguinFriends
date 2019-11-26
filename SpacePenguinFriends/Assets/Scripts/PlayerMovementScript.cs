@@ -137,4 +137,14 @@ public class PlayerMovementScript : MonoBehaviour
         }
 
     }
+
+    public Vector3 GetForwardVec()
+    {
+        if (movementVec.magnitude < 0.1f)
+        {
+            return new Vector3(0, 0, 0);
+        }
+
+        return Vector3.Normalize(movementVec);
+    }
 }
