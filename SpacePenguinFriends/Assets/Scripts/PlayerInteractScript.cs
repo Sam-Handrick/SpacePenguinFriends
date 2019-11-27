@@ -35,7 +35,8 @@ public class PlayerInteractScript : MonoBehaviour
         {
             // Use first friend's power
             FriendScript leader = lm.GetFrontFriend();
-            leader.UsePower();
+            if(leader)
+                leader.UsePower();
 
             // Shuffle that friend to the back and the rest forward
             int idx = lm.GetFrontIndex();

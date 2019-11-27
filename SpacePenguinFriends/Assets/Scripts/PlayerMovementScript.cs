@@ -31,6 +31,8 @@ public class PlayerMovementScript : MonoBehaviour
     // raycast hit used for ground detection
     private RaycastHit hit;
 
+    public float turnSpeed = 8.0f; 
+
     // ray used for ground detection
     private Ray ray;
 
@@ -159,8 +161,18 @@ public class PlayerMovementScript : MonoBehaviour
         // translate the player by the finalized movement vector
         myRbody.MovePosition(transform.position + movementVec);
 
-        if(movementVec.magnitude >.025f)
-            transform.GetChild(0).forward = movementVec.normalized;
+        if (movementVec.magnitude > .025f)
+        {
+            float singleStep = turnSpeed * Time.deltaTime;
+
+            Debug.Log(singleStep);
+
+            Vector3 newDirection = Vector3.RotateTowards(transform.GetChild(0).forward, movementVec.normalized, singleStep, 0.0f);
+
+            Debug.DrawRay(transform.position, newDirection, Color.red);
+
+            transform.GetChild(0).forward = newDirection;
+        }
 
 
 

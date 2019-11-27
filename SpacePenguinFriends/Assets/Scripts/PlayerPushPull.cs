@@ -16,6 +16,8 @@ public class PlayerPushPull : MonoBehaviour
 
     Animator animator;
 
+    Vector3 currentBlockOffset;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -23,6 +25,7 @@ public class PlayerPushPull : MonoBehaviour
         locked = false;
         blockMovingLock = false;
         currentMoveDistance = 0;
+        currentBlockOffset = new Vector3(0, 0, 0);
 
         animator = transform.GetChild(0).GetChild(0).GetComponent<Animator>();
     }
@@ -111,7 +114,7 @@ public class PlayerPushPull : MonoBehaviour
             }
 
             currentBlock.GetComponent<Rigidbody>().MovePosition(currentBlock.transform.position + (nextDist));
-            GetComponent<Rigidbody>().MovePosition(transform.position + (nextDist));
+            transform.position += (nextDist);
 
             if (currentMoveDistance > currentBlock.GetComponent<PushPullScript>().GetPushDistance())
             {
@@ -175,9 +178,10 @@ public class PlayerPushPull : MonoBehaviour
                 locked = true;
                 animator.SetBool("OnBlock", true);
 
+                currentBlockOffset = offset;
+
                 offset *= currentBlock.GetComponent<PushPullScript>().GetPlayerOffsetDistance();
                 transform.position = currentBlock.transform.position + offset;
-                transform.SetParent(currentBlock.transform);
                 transform.GetChild(0).forward = (currentBlock.transform.position - transform.position).normalized;
             }
         }
