@@ -10,6 +10,12 @@ public class PushPullScript : MonoBehaviour
 
     private GameObject player;
 
+    // raycast hit used for ground detection
+    private RaycastHit hit;
+
+    // ray used for ground detection
+    private Ray ray;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -41,7 +47,62 @@ public class PushPullScript : MonoBehaviour
     {
         if (collision.gameObject != player)
         {
-            player.GetComponent<PlayerPushPull>().NotifyBlockCollision(this.gameObject);
+            bool valid = false;
+
+            ray = new Ray(transform.position, -transform.right);
+            if (Physics.Raycast(ray, out hit, 1.0f))
+            {
+                if (!(hit.collider.isTrigger))
+                {
+                    if(hit.collider.gameObject == collision.gameObject)
+                    {
+                        valid = true;
+                    }
+                }
+
+            }
+
+            ray = new Ray(transform.position, transform.right);
+            if (Physics.Raycast(ray, out hit, 1.0f))
+            {
+                if (!(hit.collider.isTrigger))
+                {
+                    if (hit.collider.gameObject == collision.gameObject)
+                    {
+                        valid = true;
+                    }
+                }
+
+            }
+
+            ray = new Ray(transform.position, transform.forward);
+            if (Physics.Raycast(ray, out hit, 1.0f))
+            {
+                if (!(hit.collider.isTrigger))
+                {
+                    if (hit.collider.gameObject == collision.gameObject)
+                    {
+                        valid = true;
+                    }
+                }
+
+            }
+
+            ray = new Ray(transform.position, transform.forward);
+            if (Physics.Raycast(ray, out hit, 1.0f))
+            {
+                if (!(hit.collider.isTrigger))
+                {
+                    if (hit.collider.gameObject == collision.gameObject)
+                    {
+                        valid = true;
+                    }
+                }
+
+            }
+
+            if(valid)
+                player.GetComponent<PlayerPushPull>().NotifyBlockCollision(this.gameObject);
         }
     }
 }
