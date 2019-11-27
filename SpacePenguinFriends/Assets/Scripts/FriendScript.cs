@@ -64,6 +64,8 @@ public abstract class FriendScript : MonoBehaviour
         Vector3 friendToPlayer = Vector3.Normalize(player.transform.position - transform.position);
         Vector3 fFwd = (friendToPlayer.magnitude < 0.01f) ? (new Vector3(0, 0, 0)) : (Vector3.Normalize(friendToPlayer * (1.0f - 0.02f * queuePos)));
 
+        transform.LookAt(player.transform);
+
         // Ensure the friends are slower than the player
         float fSpeed = (friendToPlayer.magnitude < 0.01f) ? (0.0f) : (0.7f * pMove.speed);
 
