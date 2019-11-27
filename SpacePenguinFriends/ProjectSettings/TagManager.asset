@@ -9,6 +9,7 @@ TagManager:
   - PushPull
   - Friend
   - EdgeCatch
+  - AllowedToDrop
   layers:
   - Default
   - TransparentFX
