@@ -15,6 +15,8 @@ public abstract class FriendScript : MonoBehaviour
     public string friendName;
     protected bool wasAcquired;
 
+    Animator animator;
+
     // Start is called before the first frame update
     protected virtual void Start()
     {
@@ -33,6 +35,8 @@ public abstract class FriendScript : MonoBehaviour
         Debug.Assert(lm != null, "ERROR: Cannot find LevelManager! Make sure there is exactly one in the scene.");
 
         wasAcquired = false;
+
+        animator = transform.GetChild(0).GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -53,6 +57,7 @@ public abstract class FriendScript : MonoBehaviour
 
             Vector3 friendToPlayer = Vector3.Normalize(player.transform.position - transform.position);
             transform.position = player.transform.position + (0.75f * (queuePos + 1)) * friendToPlayer;
+            transform.position.Set(transform.position.x, player.transform.position.y, transform.position.z);
 
             wasAcquired = true;
         }
@@ -68,6 +73,16 @@ public abstract class FriendScript : MonoBehaviour
 
         // Ensure the friends are slower than the player
         float fSpeed = (friendToPlayer.magnitude < 0.01f) ? (0.0f) : (0.7f * pMove.speed);
+
+        Debug.Log("Speed: " + fSpeed);
+
+        if (fSpeed > 0.1f)
+            animator.SetBool("Moving", true);
+        else
+            animator.SetBool("Moving", false);
+
+        if(transform.position.y < player.transform.position.y)
+            transform.position.Set(transform.position.x, player.transform.position.y, transform.position.z);
 
         transform.position = player.transform.position - (transform.localScale.x * (queuePos + 1)) * friendToPlayer + fSpeed * Time.deltaTime * fFwd;
     }
