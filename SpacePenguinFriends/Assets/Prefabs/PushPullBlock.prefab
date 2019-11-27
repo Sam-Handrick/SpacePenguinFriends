@@ -131,7 +131,7 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.8, y: 1, z: 0.8}
+  m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &1577107424485688873
 PrefabInstance:
@@ -144,6 +144,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Smooth_Block_with_Handles
+      objectReference: {fileID: 0}
+    - target: {fileID: -927199367670048503, guid: 60b729cdb972665439ae6f9cef37dcc8,
+        type: 3}
+      propertyPath: m_TagString
+      value: AllowedToDrop
       objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: 60b729cdb972665439ae6f9cef37dcc8,
         type: 3}

@@ -15,8 +15,6 @@ GameObject:
   - component: {fileID: 4451763444250054564}
   - component: {fileID: 4451763444250054570}
   - component: {fileID: 4451763444250054569}
-  - component: {fileID: 3775602701775085499}
-  - component: {fileID: 4045428475417701935}
   m_Layer: 0
   m_Name: PushPullStair
   m_TagString: PushPull
@@ -50,8 +48,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.1847309, y: 0.9999999, z: 0.9999999}
-  m_Center: {x: -0.80039203, y: 0, z: 0}
+  m_Size: {x: 0.6554125, y: 0.9999999, z: 0.9999999}
+  m_Center: {x: -0.5357329, y: 0, z: 0}
 --- !u!65 &4451763444250054561
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -63,8 +61,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.6559418, y: 0.9999999, z: 0.9999999}
-  m_Center: {x: 0.6139727, y: 0, z: 0}
+  m_Size: {x: 1.0498815, y: 0.9999999, z: 0.9999999}
+  m_Center: {x: 0.31094253, y: 0, z: 0}
 --- !u!65 &4451763444250054571
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -76,8 +74,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.9999999, y: 0.9999999, z: 1.5435969}
-  m_Center: {x: 0, y: 0, z: -0.69545466}
+  m_Size: {x: 0.9999999, y: 0.9999999, z: 0.92610365}
+  m_Center: {x: 0, y: 0, z: -0.38670808}
 --- !u!65 &4451763444250054564
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -89,8 +87,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.9999999, y: 0.9999999, z: 1.463509}
-  m_Center: {x: 0, y: 0, z: 0.69746906}
+  m_Size: {x: 0.9999999, y: 0.9999999, z: 0.8944589}
+  m_Center: {x: 0, y: 0, z: 0.4129439}
 --- !u!54 &4451763444250054570
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -122,26 +120,26 @@ MonoBehaviour:
   moveDistance: 1
   playerOffsetDistance: 0.8
   moveSpeed: 3
---- !u!65 &3775602701775085499
+--- !u!65 &1230698630659947111
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4451763444250054563}
+  m_GameObject: {fileID: 8287361752287704770}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 1, y: 0.49896514, z: 1}
   m_Center: {x: 0, y: -0.25051743, z: 0}
---- !u!65 &4045428475417701935
+--- !u!65 &5484494525774245210
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4451763444250054563}
+  m_GameObject: {fileID: 8287361752287704770}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
@@ -159,6 +157,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Stairs_with_Handles
+      objectReference: {fileID: 0}
+    - target: {fileID: -927199367670048503, guid: 68711f8da45e9354f8997c9956ecdce0,
+        type: 3}
+      propertyPath: m_TagString
+      value: AllowedToDrop
       objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: 68711f8da45e9354f8997c9956ecdce0,
         type: 3}
@@ -223,6 +226,12 @@ PrefabInstance:
         type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 68711f8da45e9354f8997c9956ecdce0, type: 3}
+--- !u!1 &8287361752287704770 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: -927199367670048503, guid: 68711f8da45e9354f8997c9956ecdce0,
+    type: 3}
+  m_PrefabInstance: {fileID: 9977572293816267}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &4997243248680535249 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -4216859302048453862, guid: 68711f8da45e9354f8997c9956ecdce0,

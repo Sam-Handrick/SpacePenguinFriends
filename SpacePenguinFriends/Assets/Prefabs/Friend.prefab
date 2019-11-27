@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 629530187041112861}
   m_Layer: 0
   m_Name: Friend
-  m_TagString: PushPull
+  m_TagString: Friend
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
