@@ -165,7 +165,11 @@ public class PlayerMovementScript : MonoBehaviour
         {
             float singleStep = turnSpeed * Time.deltaTime;
 
+            Debug.Log(singleStep);
+
             Vector3 newDirection = Vector3.RotateTowards(transform.GetChild(0).forward, movementVec.normalized, singleStep, 0.0f);
+
+            Debug.DrawRay(transform.position, newDirection, Color.red);
 
             transform.GetChild(0).forward = newDirection;
         }
