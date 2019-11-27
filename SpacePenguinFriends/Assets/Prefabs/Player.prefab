@@ -161,7 +161,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 4
-  jumpForce: 175
+  jumpForce: 350
+  jumpDelayTime: 0.5
+  turnSpeed: 8
 --- !u!114 &1394460847393858742
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -214,11 +216,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: P_Idle
       objectReference: {fileID: 0}
-    - target: {fileID: -6057140222963153312, guid: 24c4eead2e4b0ce41828bdfde9650f58,
-        type: 3}
-      propertyPath: m_Controller
-      value: 
-      objectReference: {fileID: 9100000, guid: b28f1d6cdf9d2b843941cad5cd18d611, type: 2}
     - target: {fileID: -4216859302048453862, guid: 24c4eead2e4b0ce41828bdfde9650f58,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -289,6 +286,11 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 26.039143
       objectReference: {fileID: 0}
+    - target: {fileID: -6057140222963153312, guid: 24c4eead2e4b0ce41828bdfde9650f58,
+        type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: b28f1d6cdf9d2b843941cad5cd18d611, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 24c4eead2e4b0ce41828bdfde9650f58, type: 3}
 --- !u!4 &5006512736702726935 stripped
