@@ -26,7 +26,7 @@ public class PressurePlate : InteractableObject
 
     }
 
-    void OnCollisionEnter(Collision collision)
+    void OnTriggerEnter(Collider collision)
     {
         numOnSwitch++;
         if (requiresConstantWeight)
@@ -39,14 +39,14 @@ public class PressurePlate : InteractableObject
         }
     }
 
-    void OnCollisionStay(Collision collision)
+    void OnTriggerStay(Collider collision)
     {
         if (requiresConstantWeight)
         {
             isPressed = numOnSwitch > 0;
         }
     }
-    void OnCollisionExit(Collision collision)
+    void OnTriggerExit(Collider collision)
     {
         numOnSwitch--;
         if (requiresConstantWeight)

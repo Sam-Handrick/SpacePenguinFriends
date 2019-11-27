@@ -12,6 +12,8 @@ public class Door : InteractableObject
     public bool requiresManualInteract;
     private bool finished;
 
+    bool canBeDeactivated = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -33,25 +35,31 @@ public class Door : InteractableObject
     // Update is called once per frame
     void Update()
     {
-        if (!finished)
-        {
-            if (!wasActivated)
+
+        Debug.Log("wasActivated: " + wasActivated + ", finished:" + finished + ", canBeDeactivated: " + canBeDeactivated + "nPlates: " + nPlates);
+
+        if (!wasActivated || canBeDeactivated)
             {
                 for (int i = 0; i < nPlates; ++i)
                 {
+                
                     if (!plates[i].IsPressed())
                     {
+
+                        if (finished)
+                        {
+                            OnDeactivation();
+                        }
                         return;
                     }
                 }
                 wasActivated = true;
             }
 
-            if (wasActivated)
+            if (wasActivated && !finished)
             {
                 OnActivation();
             }
-        }
     }
 
     public override void Interact()
@@ -87,6 +95,10 @@ public class Door : InteractableObject
 
     private void OnActivation()
     {
+        Debug.Log("OnActivate");
+
+        canBeDeactivated = true;
+
         if (requiresManualInteract)
         {
             return;
@@ -94,6 +106,27 @@ public class Door : InteractableObject
 
         finished = true;
         // Do whatever the door should do when activated automatically
-        transform.localScale += new Vector3(0.0f, 10.0f, 0.0f);
+        //transform.localScale += new Vector3(0.0f, 10.0f, 0.0f);
+
+        transform.position = transform.position + new Vector3(0, 1, 0);
+    }
+
+    private void OnDeactivation()
+    {
+        Debug.Log("OnDecativate");
+
+        canBeDeactivated = false;
+
+        wasActivated = false;
+        finished = false;
+
+        if (requiresManualInteract)
+        {
+            return;
+        }
+        // Do whatever the door should do when activated automatically
+        //transform.localScale += new Vector3(0.0f, 10.0f, 0.0f);
+
+        transform.position = transform.position + new Vector3(0, -1, 0);
     }
 }
