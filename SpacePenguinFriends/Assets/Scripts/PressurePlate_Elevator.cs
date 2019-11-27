@@ -5,10 +5,9 @@ using UnityEngine;
 public class PressurePlate_Elevator : MonoBehaviour
 {
     public GameObject elevator;
-    public float maxHeight = 5;
+    public float maxHeight = 3;
     public float minHeight = 1;
-    public float rateUp = 0.1f;
-    public float rateDown = 0.2f;
+    public float rateMovement = 0.1f;
     private bool tagEntered = false;
     public List<string> elevatorTag = new List<string>(new string[] {"Player"});
     
@@ -17,11 +16,11 @@ public class PressurePlate_Elevator : MonoBehaviour
     
     void goingUp()
     {
-        elevator.transform.position += new Vector3(0, rateUp, 0);
+        elevator.transform.position += new Vector3(0, rateMovement, 0);
     }
     void goingDown()
     {
-        elevator.transform.position -= new Vector3(0, rateDown, 0);
+        elevator.transform.position -= new Vector3(0, rateMovement, 0);
     }
 
     /*
