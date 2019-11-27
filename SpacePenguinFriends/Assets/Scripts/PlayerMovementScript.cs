@@ -152,11 +152,16 @@ public class PlayerMovementScript : MonoBehaviour
         }
 
 
-        if(movementVec.magnitude > 0.0f)
+        if (movementVec.magnitude > 0.0f)
+        {
             animator.SetBool("Walking", true);
+            GetComponent<ParticleSystem>().Play();
+        }
         else
+        {
             animator.SetBool("Walking", false);
-
+            GetComponent<ParticleSystem>().Stop();
+        }
 
         // we then rotate the movement vector by the camera angle difference we've just calculated
         movementVec = Quaternion.AngleAxis(cameraAngleDiff, Vector3.up) * movementVec;
