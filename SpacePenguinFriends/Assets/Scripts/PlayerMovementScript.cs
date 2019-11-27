@@ -38,6 +38,8 @@ public class PlayerMovementScript : MonoBehaviour
 
     PlayerPushPull pushPullComponent;
 
+    bool onEdgeCatch;
+
     Animator animator;
 
     // these represent the strings used to leverage Unity's input system and reference inputs in unity's input manager
@@ -66,6 +68,8 @@ public class PlayerMovementScript : MonoBehaviour
 
         myCamera = GameObject.FindWithTag("MainCamera");
 
+        onEdgeCatch = false;
+
         charControl = GetComponent<CharacterController>();
 
         myRbody = GetComponent<Rigidbody>();
@@ -89,6 +93,12 @@ public class PlayerMovementScript : MonoBehaviour
             {
                 if(airborne)
                     animator.SetBool("Landed", true);
+
+
+                if (hit.collider.gameObject.tag == "EdgeCatch")
+                    onEdgeCatch = true;
+                else
+                    onEdgeCatch = false;
 
                 airborne = false;
                 animator.SetBool("Jump", false);
@@ -158,18 +168,43 @@ public class PlayerMovementScript : MonoBehaviour
             return;
         }
 
-        // translate the player by the finalized movement vector
-        myRbody.MovePosition(transform.position + movementVec);
+        bool stopForEdge = false;
+
+        if(onEdgeCatch)
+        {
+            ray = new Ray(transform.position + movementVec, -transform.up);
+            Debug.DrawRay(transform.position + movementVec, -transform.up, Color.red);
+
+            bool groundAhead = Physics.Raycast(ray, out hit, 2.0f);
+            if (!groundAhead)
+            {
+                stopForEdge = true;
+            }
+            else
+            {
+                if(hit.collider.gameObject.tag != "EdgeCatch" && hit.collider.gameObject.tag != "AllowedToDrop")
+                {
+                    Debug.Log(hit.collider.gameObject.name + "  TAG: "+ hit.collider.gameObject.tag);
+                    stopForEdge = true;
+                }
+            }
+        }
+
+        if (!stopForEdge)
+        {
+            // translate the player by the finalized movement vector
+            myRbody.MovePosition(transform.position + movementVec);
+        }
 
         if (movementVec.magnitude > .025f)
         {
             float singleStep = turnSpeed * Time.deltaTime;
 
-            Debug.Log(singleStep);
+            //Debug.Log(singleStep);
 
             Vector3 newDirection = Vector3.RotateTowards(transform.GetChild(0).forward, movementVec.normalized, singleStep, 0.0f);
 
-            Debug.DrawRay(transform.position, newDirection, Color.red);
+            //Debug.DrawRay(transform.position, newDirection, Color.red);
 
             transform.GetChild(0).forward = newDirection;
         }

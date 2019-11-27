@@ -8,6 +8,7 @@ TagManager:
   - Interaction
   - PushPull
   - Friend
+  - EdgeCatch
   layers:
   - Default
   - TransparentFX

@@ -37,6 +37,11 @@ public class LevelManager : MonoBehaviour
     public void IncrementFrontIndex()
     {
         frontIdx++;
+        if (currFriends == 0)
+        { 
+            frontIdx = 0;
+            return;
+        }
         frontIdx = frontIdx % currFriends;
     }
 }
